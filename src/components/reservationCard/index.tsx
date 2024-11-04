@@ -114,86 +114,118 @@ const ReservationCard: React.FC<ReservationCardProps> = ({
     <div className="Cardreser">
       <div className="reser">
         <div className="reservation__left">
-          <img
-            style={{ borderRadius: "10px" }}
-            width={350}
-            src={pods?.imageUrl}
-            alt=""
-          />
+          {pricePerHour > 0 ? (
+            <img
+              style={{ borderRadius: "10px" }}
+              width={350}
+              src={pods?.imageUrl}
+              alt="Pod Image"
+            />
+          ) : (
+            booking.bookingServices.map((service) => (
+              <img
+                key={service.serviceId}
+                style={{ borderRadius: "10px" }}
+                width={350}
+                src={service.imageUrl}
+                alt="Service Image"
+              />
+            ))
+          )}
         </div>
+
         <div className="reservation__right">
-          <h2>{booking.podName}</h2>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <p>
-              <UserOutlined /> {pods?.capacity}
-            </p>
-            <p>
-              <LayoutOutlined /> {pods?.area} m{" "}
-            </p>
-          </div>
-          <p>Địa chỉ: {booking.locationAddress}</p>
-          <p>{formatBookingTime()}</p>
-          {pricePerHour > 0 && (
-            <p>
-              {formatVND(booking.pricePerHour)} x{" "}
-              {booking?.startTime && booking?.endTime
-                ? calculateTime(
-                    new Date(booking.startTime),
-                    new Date(booking.endTime)
-                  )
-                : ""}
-            </p>
-          )}
-          <p>
-            {booking.bookingServices.map((service) => (
-              <div key={service.serviceId}>
-                <p style={{ paddingBottom: "5px" }}>
-                  {service.nameService}: Số lượng {service.quantity}{" "}
+          {pricePerHour > 0 ? (
+            <>
+              <h2>{booking.podName}</h2>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <p>
+                  <UserOutlined /> {pods?.capacity}
                 </p>
-                Giá: {formatVND(service.totalPrice)}
+                <p>
+                  <LayoutOutlined /> {pods?.area} m²
+                </p>
               </div>
-            ))}
-          </p>
-          <p>
-            <strong>Tổng: </strong>
-            {formatVND(booking.totalPrice)}
-          </p>
-          {booking.paymentStatus === "Complete" && (
-            <p>
-              {canAddRating && (
-                <span
-                  style={{ cursor: "pointer", color: "blue" }}
-                  onClick={() => onAddRating(booking.podId)}
+              <p>Địa chỉ: {booking.locationAddress}</p>
+              <p>{formatBookingTime()}</p>
+              <p>
+                {formatVND(booking.pricePerHour)} x{" "}
+                {booking?.startTime && booking?.endTime
+                  ? calculateTime(
+                      new Date(booking.startTime),
+                      new Date(booking.endTime)
+                    )
+                  : ""}
+              </p>
+              {booking.bookingServices.length > 0 && (
+                <>
+                  <h4>Dịch vụ đi kèm:</h4>
+                  {booking.bookingServices.map((service) => (
+                    <div key={service.serviceId}>
+                      <p>
+                        {service.nameService}: Số lượng {service.quantity}
+                      </p>
+                      <p>Giá: {formatVND(service.totalPrice)}</p>
+                    </div>
+                  ))}
+                </>
+              )}
+              <p>
+                <strong>Tổng: </strong>
+                {formatVND(booking.totalPrice)}
+              </p>
+              {booking.paymentStatus === "Complete" && (
+                <p>
+                  {canAddRating && (
+                    <span
+                      style={{ cursor: "pointer", color: "blue" }}
+                      onClick={() => onAddRating(booking.podId)}
+                    >
+                      Thêm đánh giá cho dịch vụ
+                    </span>
+                  )}{" "}
+                  |{" "}
+                  <span
+                    style={{ cursor: "pointer", color: "blue" }}
+                    onClick={() => onRebook(booking.podId)}
+                  >
+                    Tiếp tục sử dụng
+                  </span>
+                </p>
+              )}
+              {booking.paymentStatus === "Pending" && (
+                <Button type="primary" danger onClick={handlePaymentClick}>
+                  Thanh toán
+                </Button>
+              )}
+              {(booking.paymentStatus === "Canceled" ||
+                booking.paymentStatus === "Pending") && (
+                <Button
+                  style={{ width: 102 }}
+                  type="primary"
+                  danger
+                  onClick={() => onRebook(booking.podId)}
                 >
-                  Thêm đánh giá cho dịch vụ
-                </span>
-              )}{" "}
-              |{" "}
-              <span
-                style={{ cursor: "pointer", color: "blue" }}
-                onClick={() => onRebook(booking.podId)}
-              >
-                Tiếp tục sử dụng
-              </span>
-            </p>
-          )}
-          <p>
-            {booking.paymentStatus === "Pending" && (
-              <Button type="primary" danger onClick={handlePaymentClick}>
-                Thanh toán
-              </Button>
-            )}
-          </p>
-          {(booking.paymentStatus === "Canceled" ||
-            booking.paymentStatus === "Pending") && (
-            <Button
-              style={{ width: 102 }}
-              type="primary"
-              danger
-              onClick={() => onRebook(booking.podId)}
-            >
-              Đặt lại
-            </Button>
+                  Đặt lại
+                </Button>
+              )}
+            </>
+          ) : (
+            <>
+              <h2>Dịch vụ đã đặt</h2>
+              {booking.bookingServices.map((service) => (
+                <div key={service.serviceId}>
+                  <p>
+                    {service.nameService}: Số lượng {service.quantity}
+                  </p>
+                  <p>Giá: {formatVND(service.totalPrice)}</p>
+                </div>
+              ))}
+              <p>
+                <strong>Tổng: </strong>
+                {formatVND(booking.totalPrice)}
+              </p>
+            </>
           )}
         </div>
       </div>
