@@ -118,6 +118,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({
             <img
               style={{ borderRadius: "10px" }}
               width={350}
+              height={250}
               src={pods?.imageUrl}
               alt="Pod Image"
             />
@@ -127,6 +128,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({
                 key={service.serviceId}
                 style={{ borderRadius: "10px" }}
                 width={350}
+                height={250}
                 src={service.imageUrl}
                 alt="Service Image"
               />
