@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import api from "../../components/config/api";
-import { Service } from "../../components/modal/service";
 import "./index.scss";
 import ServiceCard from "../ServiceCard";
 import { Button, Modal, Pagination as AntPagination } from "antd";
@@ -14,9 +13,19 @@ import { useNavigate } from "react-router-dom";
 interface JwtPayload {
   userId: string;
 }
+
+export interface Service {
+  id: string;
+  name: string;
+  quantity: number;
+  description: string;
+  unitPrice: number;
+  imageUrl: string;
+}
+
 function ServiceDetails() {
   const [service, setService] = useState<Service[]>([]);
-  const [selectedServices, setSelectedServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState<Service[]>([]);
   const [reservation, setReservation] = useState<Booking[]>();
   const [activeBookingId, setActiveBookingId] = useState<string | null>(null);
   const [showModal, setSHowModal] = useState(false);
@@ -112,33 +121,41 @@ function ServiceDetails() {
   };
 
   const handleServiceSelection = (
-    serviceId: any,
-    quantity: any,
+    serviceId: string,
+    quantity: number,
     isChecked: boolean
   ) => {
-    setSelectedServices((prevServices) => {
+    setSelectedServices((prevServices: Service[]): Service[] => {
       if (isChecked) {
-        // Nếu checkbox được chọn, thêm hoặc cập nhật số lượng dịch vụ
-        const existingService = prevServices.find(
-          (service: Service) => service.id === serviceId
+        // Kiểm tra xem dịch vụ đã tồn tại trong danh sách chưa
+        const existingServiceIndex = prevServices.findIndex(
+          (service) => service.id === serviceId
         );
-        if (existingService) {
-          return prevServices.map((service: Service) =>
-            service.id === serviceId
-              ? { ...service, quantity: quantity }
-              : service
-          );
+
+        if (existingServiceIndex !== -1) {
+          // Cập nhật số lượng của dịch vụ đã có
+          const newServices = [...prevServices];
+          newServices[existingServiceIndex] = {
+            ...prevServices[existingServiceIndex],
+            quantity,
+          };
+          return newServices;
         } else {
-          return [...prevServices, { id: serviceId, quantity: quantity }];
+          // Thêm dịch vụ mới với số lượng được chọn
+          const newService = service.find((item) => item.id === serviceId);
+          if (newService) {
+            return [...prevServices, { ...newService, quantity }];
+          }
         }
       } else {
-        // Nếu checkbox bị bỏ chọn, xóa dịch vụ khỏi danh sách
-        return prevServices.filter(
-          (service: Service) => service.id !== serviceId
-        );
+        // Nếu checkbox bị bỏ chọn, loại bỏ dịch vụ khỏi danh sách
+        return prevServices.filter((service) => service.id !== serviceId);
       }
+      // Trả về prevServices nếu không có điều kiện nào thỏa mãn
+      return prevServices;
     });
   };
+
   const indexOfLastPod = currentPage * podsPerPage;
   const indexOfFirstPod = indexOfLastPod - podsPerPage;
   const currentPods = service?.slice(indexOfFirstPod, indexOfLastPod);
