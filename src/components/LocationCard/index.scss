@@ -1,0 +1,12 @@
+.Card{
+    width: 80%;
+    margin: 40px;
+    .locationCard{
+        background-color: rgb(241, 243, 245);
+        .description{
+            display: flex;
+            flex-direction: column;
+            font-size: 18px;
+        }
+    }
+}

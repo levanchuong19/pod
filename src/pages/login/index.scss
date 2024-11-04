@@ -1,0 +1,91 @@
+/* Main container styling */
+.login-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: white;
+    text-align: center;
+  }
+  
+  /* Title styling */
+  .login-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px; /* Reduced margin */
+    color: #333;
+  }
+  
+  /* Form and input styling */
+  .login-form {
+    width: 100%;
+  }
+  
+  .login-input {
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px; /* Reduced margin */
+  }
+  
+  /* Primary login button */
+  .login-button {
+    width: 100%;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    height: 45px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-bottom: 15px; 
+    cursor: pointer;
+  }
+  
+  
+  
+  /* Google button styling */
+  .google-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px; /* Reduced margin */
+    border: 1px solid #4285F4;
+    color: #4285F4;
+    background-color: #fff;
+    padding: 10px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  
+  
+
+.register-section {
+    margin-top: 30px;
+  }
+  
+  .register-text {
+    font-size: 14px;
+    color: #888;
+  }
+  
+  .register-link {
+    font-size: 14px;
+    color: #1890ff;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 5px; 
+  }
+  
+  
+
+  .forgot_password{
+    width: 100%;
+    margin-left: 140px;
+  }
+  
+  

@@ -1,0 +1,28 @@
+.DeviceDetails{
+    width: 100%;
+    display: block;
+    margin-left: 103px;
+    
+    
+    .deviceDetails{
+        display: flex;
+        width: 86%;
+        gap: 50px;
+        padding: 50px 20px;
+        // background-color: red;
+        &__reight{
+            display: flex;
+            flex-direction: column;
+            text-align: justify;
+            gap: 15px;
+            font-size: 15px;
+            .button{
+                width: 180px;
+                padding: 20px;
+                &:hover{
+                    transform:  scale(1.05);
+                }
+            }
+        }
+    }
+}

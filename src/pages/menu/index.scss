@@ -1,0 +1,13 @@
+.CardService{
+    display: flex;
+    justify-content: center;
+    .cardService{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        padding: 40px;
+        width: 83%;
+        background-color: red;
+    }
+    
+}

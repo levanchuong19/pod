@@ -1,0 +1,68 @@
+.Booking{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(241, 242, 243);
+    
+    .booking{
+        width: 90%;
+        // margin: 50px;
+        padding:50px 50px;
+        border-radius: 10px;
+        // background-color:rgb(235, 235, 235); 
+        display: flex;
+        // align-items: center;
+        flex-wrap: wrap;
+         gap: 60px;
+        .img{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 45%;
+            img{
+                border-radius: 10px;
+                object-fit: cover;
+            }
+        }
+        &__content{
+            // margin-top: 0px;
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            gap: 10px;
+        }
+        
+        &__content1{
+            display: flex;
+            align-items: center;
+            gap: 150px;
+            .price{
+                width: 140px;
+                background-color: rgb(224, 224, 224);
+                align-items: center;
+                text-align: center;
+                font-weight: 550;
+                font-size: 20px;
+                border-radius: 4px;
+                padding: 5px 2px;
+                color: rgb(186, 2, 2);
+            }
+        }
+        &__content2{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 15px;
+        }
+        .button{
+            &:hover{
+                transform:  scale(1.05);
+            }
+        }
+    }
+}
+.ant-picker-cell-disabled {
+    opacity: 0.5; /* Giảm độ trong suốt */
+    pointer-events: none; /* Ngăn không cho người dùng tương tác */
+  }

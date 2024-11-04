@@ -1,0 +1,30 @@
+.Reservation{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 30px 0px;
+    
+.reservation{
+    width: 83%;
+    // background-color: #efefef;
+    display: flex;
+    justify-content: center;
+    padding: 20px ;
+    border-radius: 10px;
+    
+    .reservationCard{
+        // margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        
+        
+    }
+    }
+}
+.-slide {
+    // border-bottom: 3px solid black; 
+    // font-weight: bold; 
+    // width: 50%;
+    color: #8b8a8a;
+  }

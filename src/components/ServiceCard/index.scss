@@ -1,0 +1,23 @@
+.card{
+    display: flex;
+    .card1{
+        display: flex;
+        width: 500px;
+        flex-direction: column;
+        margin: 25px;
+        background-color: rgb(241, 243, 245);
+        img{
+            width: 350px;
+            height: 28vh;
+            border-radius: 10px;
+        }
+        .description{
+            display: flex;
+        }
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+          }
+    }
+}

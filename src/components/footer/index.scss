@@ -1,0 +1,73 @@
+.footer{
+    background-color: rgb(40, 19, 19);
+    
+    &__tren{
+        margin-left: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        color: #fff;
+        justify-content: center;
+        gap: 240px;
+        width: 98.5%;
+        padding: 30px;
+        &__left{
+          display: flex;
+            // width: 600px;
+            gap: 30px;
+            .content_left{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                h4{
+                    padding-bottom: 20px;
+                    font-size: 30px;
+                    font-weight: 400;
+                }
+            }
+        }
+        &__reight{
+            width: 450px;
+            
+            .form{
+                display: flex;
+                flex-direction: column;
+                p{
+                    color: #fff;
+                }
+                Input{
+                    width: 450px;
+                    border: none;
+                    border-radius: 0;
+                }
+                
+            }
+            .gui{
+                border: none;
+                border-radius: 0;
+                font-weight: 600;
+                width: 100px;
+                
+            }
+        }
+       
+    }
+    &__line{
+        height: 2px;
+        width: 82%;
+        background-color: #fff;
+        margin-left: 130px;
+        // margin-bottom: 40px;
+    }
+    &__content{
+     color: #fff;
+     display: flex;
+     gap: 50px;
+     padding: 20px 130px ;
+
+     a{
+        color: #fff;
+        text-decoration: none;
+     }
+    }
+    
+}

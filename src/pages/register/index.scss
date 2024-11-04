@@ -1,0 +1,21 @@
+.register-container {
+    background-image: url('https://workflow.com.vn/wp-content/uploads/2023/01/single_pod.jpg');
+    background-size: cover; //để hình nền bao phủ mặt đằng sau 
+    background-position: center; // canh chỉnh hình nền ở giữa
+    height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .register-form {
+    background: rgba(255, 255, 255, 0.85); 
+    padding: 40px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; 
+  }
+  
+
+  

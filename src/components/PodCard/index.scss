@@ -1,0 +1,31 @@
+.card3{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: rgb(241, 243, 245);
+    img{
+        width: 350px;
+        height: 28vh;
+        border-radius: 10px;
+    }
+    .description{
+        display: flex;
+    }
+    .price{
+        position: absolute;
+        top: 170px;
+        left: 245px;
+        width: 100px;
+        background-color: rgb(224, 224, 224);
+        
+        text-align: center;
+        font-weight: 450;
+        border-radius: 4px;
+        padding: 5px 2px;
+    }
+    .button{
+        &:hover{
+            transform:  scale(1.05);
+        }
+    }
+}
