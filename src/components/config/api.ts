@@ -1,6 +1,6 @@
 import axios from "axios";
 const api = axios.create({
-    baseURL: "http://localhost:5088/api/v1/",
+    baseURL: "https://bookingpod.azurewebsites.net/api/v1/",
 });
 
 api.interceptors.request.use(
@@ -27,7 +27,7 @@ api.interceptors.response.use(
 
             try {
                 const refreshToken = localStorage.getItem("refreshToken");
-                const response = await axios.post("http://localhost:5088/api/v1/authentication/token/refresh", {
+                const response = await axios.post("https://bookingpod.azurewebsites.net/api/v1/authentication/token/refresh", {
                     refreshToken,
                 });
                 const newAccessToken = response.data.accessToken;
