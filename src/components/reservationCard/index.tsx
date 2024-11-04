@@ -221,6 +221,11 @@ const ReservationCard: React.FC<ReservationCardProps> = ({
                   <p>Giá: {formatVND(service.totalPrice)}</p>
                 </div>
               ))}
+
+              <p>
+                Sử dụng cho: {booking.podName},{" "}
+                {formatDate(new Date(booking.startTime))}
+              </p>
               <p>
                 <strong>Tổng: </strong>
                 {formatVND(booking.totalPrice)}
