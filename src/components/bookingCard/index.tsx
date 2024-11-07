@@ -76,8 +76,8 @@ const BookingCard: React.FC<ReservationCardProps> = ({ booking }) => {
   };
 
   return (
-    <div>
-      <div className="reser" style={{ width: "100%" }}>
+    <div className="CardSer">
+      <div className="ser" style={{ width: "100%" }}>
         <div className="reservation__left">
           <img
             style={{ borderRadius: "10px" }}

@@ -37,11 +37,6 @@ function Profile() {
       },
     },
     {
-      title: "Points",
-      dataIndex: "points",
-      key: "points",
-    },
-    {
       title: "Description",
       dataIndex: "description",
       key: "description",

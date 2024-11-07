@@ -196,7 +196,12 @@ const ReservationCard: React.FC<ReservationCardProps> = ({
                 </p>
               )}
               {booking.paymentStatus === "Pending" && (
-                <Button type="primary" danger onClick={handlePaymentClick}>
+                <Button
+                  style={{ width: "102px" }}
+                  type="primary"
+                  danger
+                  onClick={handlePaymentClick}
+                >
                   Thanh toán
                 </Button>
               )}
