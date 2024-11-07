@@ -22,6 +22,7 @@ interface DashboardTemplateProps {
   apiURI: string;
   formItems: React.ReactElement;
   fileList: any;
+  data: any[];
 }
 
 function DashboardTemplate({
@@ -30,12 +31,19 @@ function DashboardTemplate({
   apiURI,
   title,
   fileList,
+  data,
 }: DashboardTemplateProps) {
-  const [datas, setDatas] = useState([]);
+  const [datas, setDatas] = useState(data || []);
   const [showModal, setShowModal] = useState(false);
   const [form] = useForm();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+
+  useEffect(() => {
+    if (data) {
+      setDatas(data);
+    }
+  }, [data]);
 
   //GET
   const fetchData = async () => {
@@ -123,7 +131,10 @@ function DashboardTemplate({
       title: "Action",
       dataIndex: "id",
       key: "id",
-      render: (record: { dateOfBirth: moment.MomentInput; id: string }) => (
+      render: (
+        id: string,
+        record: { dateOfBirth: moment.MomentInput; id: string }
+      ) => (
         <>
           <div
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
@@ -147,7 +158,7 @@ function DashboardTemplate({
             <Popconfirm
               title="Delete"
               description="Do you want to delete"
-              onConfirm={() => handleDelete(record.id)}
+              onConfirm={() => handleDelete(id)}
             >
               <Button type="primary" danger>
                 Delete

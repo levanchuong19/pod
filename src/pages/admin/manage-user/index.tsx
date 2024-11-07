@@ -15,8 +15,15 @@ import DashboardTemplate, {
 } from "../../../components/dashboard_template";
 
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
+import { jwtDecode } from "jwt-decode";
+import api from "../../../components/config/api";
+
+interface JwtPayload {
+  userId: any;
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
+}
 
 function ManageUser() {
   const title = "accounts";
@@ -30,11 +37,36 @@ function ManageUser() {
     { title: "Id", dataIndex: "id", key: "id" },
     { title: "FirstName", dataIndex: "firstName", key: "firstName" },
     { title: "LastName", dataIndex: "lastName", key: "lastName" },
-    { title: "Gender", dataIndex: "gender", key: "gender" },
+    {
+      title: "Gender",
+      dataIndex: "gender",
+      key: "gender",
+      render: (text: any) => {
+        const gender: { [key: string]: string } = {
+          1: "Male",
+          2: "Female",
+        };
+        return gender[text] || "Unknown";
+      },
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      render: (text: any) => {
+        const role: { [key: string]: string } = {
+          Admin: "Admin",
+          Manager: "Manager",
+          Staff: "Staff",
+          Customer: "Customer",
+        };
+        return role[text] || "Unknown";
+      },
+    },
     {
       title: "DateOfBirthday",
-      dataIndex: "dateOfBirthday",
-      key: "dateOfBirthday",
+      dataIndex: "dateOfBirth",
+      key: "dateOfBirth",
       render: (dateOfBirth) => {
         return dayjs(dateOfBirth).format("DD/MM/YYYY");
       },
@@ -53,6 +85,46 @@ function ManageUser() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [roles, setRoles] = useState<string | null>(null);
+  const [accounts, setAccounts] = useState<any[]>([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      const decodedToken: JwtPayload = jwtDecode(token);
+      const userRole =
+        decodedToken[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ];
+      setRoles(userRole);
+      fetchAccountsByRole(userRole);
+    }
+  }, []);
+
+  const fetchAccountsByRole = async (role: string) => {
+    try {
+      let apiUrl = "accounts";
+      let responseStaff = null;
+      let responseCustomer = null;
+
+      if (role === "Staff") {
+        apiUrl = `${apiUrl}?Role=3`;
+        const response = await api.get(apiUrl);
+        setAccounts(response.data);
+      } else if (role === "Manager") {
+        responseStaff = await api.get(`${apiUrl}?Role=3`);
+        responseCustomer = await api.get(`${apiUrl}?Role=2`);
+        const combinedData = [...responseStaff.data, ...responseCustomer.data];
+        setAccounts(combinedData);
+      } else if (role === "Admin") {
+        apiUrl = `${apiUrl}`;
+        const response = await api.get(apiUrl);
+        setAccounts(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching accounts:", error);
+    }
+  };
 
   type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
   const getBase64 = (file: FileType): Promise<string> =>
@@ -139,6 +211,26 @@ function ManageUser() {
       >
         <Input placeholder="Enter your email" />
       </Form.Item>
+      {roles === "Admin" && (
+        <Form.Item
+          label="Role"
+          name="role"
+          rules={[{ required: true, message: "Please select a role!" }]}
+        >
+          <Select
+            showSearch
+            placeholder="Select Role"
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={[
+              { value: "Manager", label: "Manager" },
+              { value: "Staff", label: "Staff" },
+              { value: "Customer", label: "Customer" },
+            ]}
+          />
+        </Form.Item>
+      )}
 
       <Form.Item
         label="PhoneNumber"
@@ -180,6 +272,7 @@ function ManageUser() {
         title={title}
         columns={columns}
         formItems={formItems}
+        data={accounts}
         apiURI="accounts"
       />
     </div>
