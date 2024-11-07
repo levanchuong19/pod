@@ -128,6 +128,7 @@ function ManageLocation() {
         columns={columns}
         formItems={formItems}
         apiURI="locations"
+        data={[]}
       />
     </div>
   );

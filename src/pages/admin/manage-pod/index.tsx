@@ -202,6 +202,7 @@ function ManagePod() {
         columns={columns}
         formItems={formItems}
         apiURI="pods"
+        data={[]}
       />
     </div>
   );

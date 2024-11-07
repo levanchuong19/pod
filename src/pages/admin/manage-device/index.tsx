@@ -131,6 +131,7 @@ function ManageDevice() {
         columns={columns}
         formItems={formItems}
         apiURI="devices"
+        data={[]}
       />
     </div>
   );

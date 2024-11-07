@@ -126,6 +126,7 @@ function ManageService() {
         columns={columns}
         formItems={formItems}
         apiURI="services"
+        data={[]}
       />
     </div>
   );
