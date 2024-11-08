@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useForm } from "antd/es/form/Form";
 import api from "../config/api";
-import moment from "moment";
+import dayjs from "dayjs";
 import uploadFile from "../../utils/upload";
+import { jwtDecode } from "jwt-decode";
 
 export interface Column {
   title: string;
@@ -14,6 +15,11 @@ export interface Column {
   key: string;
 
   render?: (text: any, record: any, index: number) => any;
+}
+
+interface JwtPayload {
+  userId: any;
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
 }
 
 interface DashboardTemplateProps {
@@ -63,7 +69,8 @@ function DashboardTemplate({
   const handleSubmit = async (values: {
     imageUrl: string;
     image: string;
-    dateOfBirthday: moment.MomentInput;
+    role: number | string;
+    dateOfBirth: dayjs.Dayjs | string;
     id: any;
   }) => {
     if (fileList && fileList.length > 0) {
@@ -80,15 +87,31 @@ function DashboardTemplate({
       }
     }
 
-    if (values.dateOfBirthday) {
-      const dateFormatted = moment(values.dateOfBirthday).format("DD-MM-YYYY");
-      values.dateOfBirthday = dateFormatted;
+    if (values.dateOfBirth) {
+      const dateFormatted = dayjs(values.dateOfBirth).format("YYYY-MM-DD");
+      values.dateOfBirth = dateFormatted;
     }
 
     try {
       console.log("Submitting form...");
       setLoading(true);
-
+      const token = localStorage.getItem("accessToken");
+      const decodedToken: JwtPayload = jwtDecode(token || "");
+      const userRole =
+        decodedToken[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ];
+      console.log("role", userRole);
+      if (userRole === "Staff" || userRole === "Manager") {
+        // Preserve the original role from the record
+        const originalRecord = datas.find((item) => item.id === values.id);
+        if (originalRecord) {
+          values.role = originalRecord.role; // Set role back to the original record's role
+        }
+      }
+      if (values.role === "Customer") {
+        values.role = 3;
+      }
       if (values.id) {
         console.log("Updating item with ID:", values.id);
         await api.put(`${apiURI}/${values.id}`, values);
@@ -133,7 +156,7 @@ function DashboardTemplate({
       key: "id",
       render: (
         id: string,
-        record: { dateOfBirth: moment.MomentInput; id: string }
+        record: { dateOfBirth: dayjs.Dayjs | string; id: string }
       ) => (
         <>
           <div
@@ -144,8 +167,8 @@ function DashboardTemplate({
               onClick={() => {
                 const recordValiDate = {
                   ...record,
-                  dateOfBirthday: record.dateOfBirth
-                    ? moment(record.dateOfBirth, "DD-MM-YYYY HH:mm")
+                  dateOfBirth: record.dateOfBirth
+                    ? dayjs(record.dateOfBirth, "YYYY-MM-DD ")
                     : null,
                 };
                 form.setFieldsValue(recordValiDate);

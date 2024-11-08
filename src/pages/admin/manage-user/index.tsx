@@ -68,7 +68,7 @@ function ManageUser() {
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
       render: (dateOfBirth) => {
-        return dayjs(dateOfBirth).format("DD/MM/YYYY");
+        return dayjs(dateOfBirth).format("YYYY-MM-DD");
       },
     },
     { title: "Address", dataIndex: "address", key: "address" },
@@ -108,7 +108,7 @@ function ManageUser() {
       let responseCustomer = null;
 
       if (role === "Staff") {
-        apiUrl = `${apiUrl}?Role=3`;
+        apiUrl = `${apiUrl}?Role=3`; // Staff chỉ thấy tài khoản Customer
         const response = await api.get(apiUrl);
         setAccounts(response.data);
       } else if (role === "Manager") {
@@ -125,7 +125,6 @@ function ManageUser() {
       console.error("Error fetching accounts:", error);
     }
   };
-
   type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
   const getBase64 = (file: FileType): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -153,7 +152,7 @@ function ManageUser() {
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
-
+  console.log("acccount", accounts);
   const formItems = (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
       <Form.Item
@@ -182,7 +181,7 @@ function ManageUser() {
 
       <Form.Item
         label="Date of Birth"
-        name="dateOfBirthday"
+        name="dateOfBirth"
         rules={[
           { required: true, message: "Please select your date of birth!" },
         ]}
@@ -211,26 +210,6 @@ function ManageUser() {
       >
         <Input placeholder="Enter your email" />
       </Form.Item>
-      {roles === "Admin" && (
-        <Form.Item
-          label="Role"
-          name="role"
-          rules={[{ required: true, message: "Please select a role!" }]}
-        >
-          <Select
-            showSearch
-            placeholder="Select Role"
-            filterOption={(input, option) =>
-              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-            }
-            options={[
-              { value: "Manager", label: "Manager" },
-              { value: "Staff", label: "Staff" },
-              { value: "Customer", label: "Customer" },
-            ]}
-          />
-        </Form.Item>
-      )}
 
       <Form.Item
         label="PhoneNumber"
@@ -240,6 +219,19 @@ function ManageUser() {
         <Input placeholder="Enter your phone number" />
       </Form.Item>
 
+      {roles === "Admin" && (
+        <Form.Item
+          label="Role"
+          name="role"
+          rules={[{ required: true, message: "Please select a role!" }]}
+        >
+          <Select disabled={roles !== "Admin"}>
+            <Select.Option value={1}>Manager</Select.Option>
+            <Select.Option value={2}>Staff</Select.Option>
+            <Select.Option value={3}>Customer</Select.Option>
+          </Select>
+        </Form.Item>
+      )}
       <Form.Item name="image" label="Image">
         <Upload
           action="http://localhost:5088/api/upload"
@@ -275,6 +267,7 @@ function ManageUser() {
         data={accounts}
         apiURI="accounts"
       />
+      {/* <Table dataSource={accounts} columns={columns} /> */}
     </div>
   );
 }
