@@ -110,7 +110,10 @@ function BookingService() {
         <div className="confirm-content">
           <h2 className="h2">Chi tiết đơn hàng</h2>
           <div className="confirm__right">
-            <strong className="strong">
+            <strong
+              style={{ marginLeft: "40px", fontSize: "20px" }}
+              className="strong"
+            >
               Dịch vụ order thêm dành cho : {isBooking?.podName}(
               {formatVND(isBooking?.pricePerHour ?? 0) + "/giờ"})
             </strong>
